@@ -10,13 +10,19 @@ namespace BulkyBookWeb.Controllers
 
         public CategoryController(ApplicationDbContext db)
         {
-           _db = db;
+            _db = db;
         }
 
         public IActionResult Index()
         {
             IEnumerable<Category> objCategoryList = _db.Categories;
             return View(objCategoryList);
+        }
+
+        // GET
+        public IActionResult Create()
+        {
+            return View();
         }
     }
 }

@@ -39,6 +39,7 @@ namespace BulkyBookWeb.Controllers
             {
                 _db.Categories.Add(obj);
                 _db.SaveChanges();
+                TempData["success"] = "Created successfully!";
                 return RedirectToAction("Index");
             }
             return View(obj);
@@ -77,6 +78,7 @@ namespace BulkyBookWeb.Controllers
             {
                 _db.Categories.Update(obj);
                 _db.SaveChanges();
+                TempData["success"] = "Updated successfully!";
                 return RedirectToAction("Index");
             }
             return View(obj);
@@ -104,20 +106,19 @@ namespace BulkyBookWeb.Controllers
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Category obj)
+        public IActionResult DeletePOST(int? id)
         {
-            if (obj.Name == obj.DisplayOrder.ToString())
+            var obj = _db.Categories.Find(id);
+            if (obj == null)
             {
-                ModelState.AddModelError("name", "The Display Order should not match the name.");
+                return NotFound(id);
             }
-
-            if (ModelState.IsValid)
-            {
                 _db.Categories.Remove(obj);
                 _db.SaveChanges();
+                TempData["success"] = "Deleted successfully!";
                 return RedirectToAction("Index");
-            }
-            return View(obj);
+            
+            
         }
     }
 }
